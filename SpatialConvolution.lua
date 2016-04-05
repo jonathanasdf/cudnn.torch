@@ -100,6 +100,7 @@ function SpatialConvolution:createIODescriptors(input)
         batch = false
     end
     assert(input:dim() == 4 and input:isContiguous());
+    self.iSize = self.iSize or torch.LongStorage(4):fill(0)
     if not self.iDesc or not self.oDesc or
         input:size(1) ~= self.iSize[1] or input:size(2) ~= self.iSize[2]
     or input:size(3) ~= self.iSize[3] or input:size(4) ~= self.iSize[4] then

@@ -53,11 +53,12 @@ function Pooling:createIODescriptors(input)
       batch = false
    end
    assert(input:dim() == 5 and input:isContiguous());
+   self.iSize = self.iSize or torch.LongStorage(5):fill(0)
    if not self.iDesc or not self.oDesc or
       input:size(1) ~= self.iSize[1] or input:size(2) ~= self.iSize[2]
    or input:size(3) ~= self.iSize[3] or input:size(4) ~= self.iSize[4]
    or input:size(5) ~= self.iSize[5] then
-      self.iSize = input:size()
+      self.iSize:copy(input:size())
       -- resize gradInput
       self.gradInput:resizeAs(input)
       -- resize output
